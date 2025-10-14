@@ -1,0 +1,54 @@
+SHOW databases;
+USE AdventureWorksDW;
+SHOW tables;
+SELECT *
+FROM dimproduct;
+
+#SELECT AND FROM CLAUSE 
+SELECT  ProductKey AS ID_Product,
+ ProductAlternateKey AS Product_Alternate,
+ EnglishProductName AS En_Product_Name,
+ Color AS Color,
+ StandardCost AS Standard_Cost, 
+ FinishedGoodsFlag AS Finished_Goods
+FROM dimproduct;
+
+# WHERE + = OPERATOR
+SELECT  
+FinishedGoodsFlag AS Finished_Goods
+FROM dimproduct
+WHERE  FinishedGoodsFlag=1;
+
+#LIKE OPERATOR + AS CALCULATION
+SELECT  ProductKey,ModelName,EnglishProductName,ListPrice-StandardCost AS MARKUP
+FROM dimproduct
+WHERE ProductAlternateKey LIKE 'FR%' OR 'BK%';
+
+#Between 
+SELECT  
+FinishedGoodsFlag AS Finished_Goods
+FROM dimproduct
+WHERE  ListPrice BETWEEN 1000 AND 2000;
+
+#dimemployee#
+USE AdventureWorksDW;
+SHOW tables;
+SELECT *
+FROM dimemployee;
+
+##TO BE VERIFIED# #impiegati aziendali, lʼelenco dei soli agenti. Gli agenti sono i dipendenti per i quali il campo SalespersonFlag è uguale a 1. 
+SELECT employeekey, Parentemployeekey
+FROM dimemployee
+WHERE SalespersonFlag= 1;
+
+ ##TO BE VERIFIED#
+USE AdventureWorksDW;
+SHOW tables;
+SELECT *
+FROM factresellersales;
+
+SELECT SalesOrderNumber, SalesOrderLineNumber,ProductKey,SalesAmount,TotalProductCost, OrderDate,
+  (SalesAmount - TotalProductCost) AS Revenue
+FROM factresellersales
+WHERE OrderDate >= '01-01-2020'
+AND ProductKey IN(597, 598, 477, 214);
